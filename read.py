@@ -1,22 +1,36 @@
-import re
+def calculate_calibration_value(line):
+    # Find the first digit
+    for char in line:
+        if char.isdigit():
+            first_digit = int(char)
+            break
+    else:
+        # No digit found at the beginning
+        return 0
 
-# Use a more descriptive variable name for sum
-total_sum = 0
+    # Find the last digit
+    for char in reversed(line):
+        if char.isdigit():
+            last_digit = int(char)
+            break
 
-# Updated regular expression to find all consecutive digits in a line
-exp = re.compile(r'\d+')
+    # Combine the digits to form a two-digit number
+    calibration_value = int(str(first_digit) + str(last_digit))
 
-with open('input.txt') as f:
-    for line in f:
-        # Find all consecutive digits in the line
-        digit_groups = exp.findall(line)
+    return calibration_value
 
-        # Extract the first and last digits from each group
-        for digit_group in digit_groups:
-            if len(digit_group) >= 2:
-                first_digit = int(digit_group[0])
-                last_digit = int(digit_group[-1])
-                two_digit_number = 10 * first_digit + last_digit
-                total_sum += two_digit_number
+def main():
 
-print(total_sum)
+    with open('input.txt') as input_file:
+    
+            # Calculate calibration values for each line
+            calibration_values = [calculate_calibration_value(line) for line in input_file]
+
+            # Sum up the calibration values
+            total_calibration = sum(calibration_values)
+
+            # Display the results
+            print(f"Total Calibration: {total_calibration}")
+
+if __name__ == "__main__":
+    main()
